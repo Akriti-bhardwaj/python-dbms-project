@@ -1,23 +1,22 @@
 import sqlite3
 
-# create database connection
-conn = sqlite3.connect('job_postings.db')
-cursor = conn.cursor()
+def init_db():
+    conn = sqlite3.connect("job_postings.db")
+    c = conn.cursor()
 
-# create table
-cursor.execute('''
-CREATE TABLE IF NOT EXISTS job_postings (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    job_title TEXT NOT NULL,
-    company_name TEXT,
-    location TEXT,
-    job_description TEXT,
-    date_scraped TEXT,
-    source_url TEXT UNIQUE
-)
-''')
+    c.execute("""
+    CREATE TABLE IF NOT EXISTS job_postings (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        title TEXT NOT NULL,
+        company TEXT NOT NULL,
+        location TEXT,
+        job_description TEXT
+    )
+    """)
 
-print("Database and table created successfully!")
+    conn.commit()
+    conn.close()
 
-conn.commit()
-conn.close()
+if __name__ == "__main__":
+    init_db()
+    print("✅ Database initialized successfully!")
